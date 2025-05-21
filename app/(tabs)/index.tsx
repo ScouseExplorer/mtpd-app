@@ -24,12 +24,21 @@ export default function Login() {
       <ParallaxScrollView
         headerBackgroundColor={{ dark: "transparent", light: "transparent" }}
         //@ts-ignore
-        headerHeight={200}
+        headerHeight={100}
         contentContainerStyle={styles.contentContainer}
         
       >
+
+
         <View style={styles.formContainer}>
-          <ThemedText style={styles.title}>MET DRIVING</ThemedText>
+          {/* Logo */}
+          <Image
+          source = {require('@/assets/images/metds-logo-png.png')}
+          style = {styles.logo}
+          contentFit= "contain"
+          />
+
+          
           
           {/* Email Input */}
           <TextInput
@@ -99,7 +108,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     padding: 10,
-    paddingTop: 10, 
+    paddingTop: 0, 
   
   },
   title: {
@@ -139,5 +148,12 @@ const styles = StyleSheet.create({
   linkText: {
     color: '#007AFF',
     fontSize: 14,
+  },
+  logo: {
+    width: 200,
+    height: 150,
+    alignSelf: 'center',
+    marginBottom: 1,
+    marginTop: -60,
   },
 });
