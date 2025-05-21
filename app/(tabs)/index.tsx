@@ -1,75 +1,143 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Pressable } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; 
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useState } from 'react';
 
-export default function HomeScreen() {
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    console.log('Logging in with:', email, password);
+  };
+
+  const handleGoogleLogin = () => {
+    console.log('Logging in with Google');
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ParallaxScrollView
+        headerBackgroundColor={{ dark: "transparent", light: "transparent" }}
+        //@ts-ignore
+        headerHeight={200}
+        contentContainerStyle={styles.contentContainer}
+        
+      >
+        <View style={styles.formContainer}>
+          <ThemedText style={styles.title}>MET DRIVING</ThemedText>
+          
+          {/* Email Input */}
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#888"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+
+          {/* Password Input */}
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#888"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
+          {/* Login Button */}
+          <Pressable
+            style={({ pressed }) => [
+              styles.button,
+              { backgroundColor: pressed ? '#FF5733' : '#007AFF' },
+            ]}
+            onPress={handleLogin}
+          >
+            <ThemedText style={styles.buttonText}>Sign In</ThemedText>
+            
+          </Pressable>
+
+          {/* Google Login Button */}
+          <Pressable
+            style={({ pressed }) => [
+              styles.button,
+              { backgroundColor: pressed ? '#FF5733' : '#DB4437' }, // Google red color
+            ]}
+            onPress={handleGoogleLogin} 
+          >
+            <ThemedText style={styles.buttonText}>Sign In with Google</ThemedText>
+          </Pressable>
+
+          {/* Additional Links */}
+          <View style={styles.linksContainer}>
+            <Pressable>
+              <ThemedText style={styles.linkText}>Forgot Password?</ThemedText>
+            </Pressable>
+            <Pressable>
+              <ThemedText style={styles.linkText}>Create Account</ThemedText>
+            </Pressable>
+          </View>
+        </View>
+      </ParallaxScrollView>
+    </GestureHandlerRootView>
   );
 }
 
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-start', 
+  },
+  formContainer: {
+    flex: 1,
+    padding: 10,
+    paddingTop: 10, 
+  
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    textAlign: 'center',
+    
+    
+  },
+  input: {
+    height: 50,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    padding: 15,
+    borderRadius: 8,
     alignItems: 'center',
-    gap: 8,
+    marginTop: 10,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  linksContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  linkText: {
+    color: '#007AFF',
+    fontSize: 14,
   },
 });
