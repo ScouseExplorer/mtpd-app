@@ -90,6 +90,8 @@ export default function Login() {
               <ThemedText style={styles.linkText}>Forgot Password?</ThemedText>
             </Pressable>
             <Pressable>
+
+            
               <ThemedText style={styles.linkText}>Create Account</ThemedText>
             </Pressable>
           </View>
