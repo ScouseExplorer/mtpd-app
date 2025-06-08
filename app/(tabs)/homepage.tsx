@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet, Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const HomeScreen = () => {
+const HomePage = () => {
   const handlePress = (boxNumber: number) => {
     Alert.alert(`Box ${boxNumber} Pressed!`);
   };
@@ -23,6 +23,9 @@ const HomeScreen = () => {
           <Pressable style={[styles.box, styles.fourthBox]} onPress={() => handlePress(4)}>
             <Text style={styles.boxText}>My Chat AI</Text>
           </Pressable>
+          <Pressable style = {[styles.box, styles.fifthBox]} onPress= {() => handlePress(5)}>
+            <Text style={styles.boxText}>My thoughts </Text>
+          </Pressable>
         </ScrollView>
 
         <SafeAreaView style={styles.footer}>
@@ -35,7 +38,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default HomePage;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -70,6 +73,9 @@ const styles = StyleSheet.create({
   },
   fourthBox: {
     backgroundColor: '#FF2D55',
+  },
+  fifthBox: {
+    backgroundColor: '#5856D6',
   },
   boxText: {
     color: '#fff',

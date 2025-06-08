@@ -6,6 +6,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useState } from 'react';
+import { Link } from 'expo-router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -21,15 +22,7 @@ export default function Login() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ParallaxScrollView
-        headerBackgroundColor={{ dark: "transparent", light: "transparent" }}
-        //@ts-ignore
-        headerHeight={100}
-        contentContainerStyle={styles.contentContainer}
-        
-      >
-
-
+      
         <View style={styles.formContainer}>
           {/* Logo */}
           <Image
@@ -86,17 +79,15 @@ export default function Login() {
 
           {/* Additional Links */}
           <View style={styles.linksContainer}>
-            <Pressable>
-              <ThemedText style={styles.linkText}>Forgot Password?</ThemedText>
-            </Pressable>
-            <Pressable>
-
-            
-              <ThemedText style={styles.linkText}>Create Account</ThemedText>
-            </Pressable>
+            <Link href="/(auth)/forgot-password" style={styles.linkText}>
+              Forgot Password?
+            </Link>
+            <Link href="/(auth)/create-account" style={styles.linkText}>
+              Create Account
+            </Link>
           </View>
         </View>
-      </ParallaxScrollView>
+      
     </GestureHandlerRootView>
   );
 }
@@ -110,7 +101,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     padding: 10,
-    paddingTop: 0, 
+    paddingTop: 150, 
   
   },
   title: {
