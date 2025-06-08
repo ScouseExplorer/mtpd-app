@@ -29,30 +29,37 @@ export default function CreateAccount() {
         <TextInput
             style={styles.input}
             placeholder = "Name"
+            placeholderTextColor="#888"
             value={name}
             onChangeText={setName}
             keyboardType="default"
             autoCapitalize="words"
+            
 
         />
         <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholderTextColor="#888"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            
         />
         <TextInput
             style={styles.input}
             placeholder="Password"
+            placeholderTextColor="#888"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            
         />
         <TextInput
             style={styles.input}
             placeholder="Confirm Password"
+            placeholderTextColor="#888"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
