@@ -24,7 +24,10 @@ const HomePage = () => {
             <Text style={styles.boxText}>My Chat AI</Text>
           </Pressable>
           <Pressable style = {[styles.box, styles.fifthBox]} onPress= {() => handlePress(5)}>
-            <Text style={styles.boxText}>My thoughts </Text>
+            <Text style={styles.boxText}>Highway Code </Text>
+          </Pressable>
+          <Pressable style = {[styles.box, styles.sixthBox]} onPress = {() => handlePress(6)}>
+            <Text style = {styles.boxText}> My Thoughts</Text>
           </Pressable>
         </ScrollView>
 
@@ -75,6 +78,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF2D55',
   },
   fifthBox: {
+    backgroundColor: '#5856D6',
+  },
+  sixthBox: {
     backgroundColor: '#5856D6',
   },
   boxText: {
