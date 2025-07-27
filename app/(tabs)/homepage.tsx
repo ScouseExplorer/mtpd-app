@@ -20,9 +20,7 @@ const HomePage = () => {
           <Pressable style={[styles.box, styles.thirdBox]} onPress={() => handlePress(3)}>
             <Text style={styles.boxText}>Driving Videos</Text>
           </Pressable>
-          <Pressable style={[styles.box, styles.fourthBox]} onPress={() => handlePress(4)}>
-            <Text style={styles.boxText}>My Chat AI</Text>
-          </Pressable>
+          
           <Pressable style = {[styles.box, styles.fifthBox]} onPress= {() => handlePress(5)}>
             <Text style={styles.boxText}>Highway Code </Text>
           </Pressable>
@@ -31,11 +29,7 @@ const HomePage = () => {
           </Pressable>
         </ScrollView>
 
-        <SafeAreaView style={styles.footer}>
-          <Pressable style={styles.footerButton} onPress={() => Alert.alert('Footer pressed')}>
-            <Text style={styles.footerText}>Footer Button</Text>
-          </Pressable>
-        </SafeAreaView>
+        
       </View>
     </SafeAreaView>
   );
@@ -81,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5856D6',
   },
   sixthBox: {
-    backgroundColor: '#5856D6',
+    backgroundColor: '#FF2D55',
   },
   boxText: {
     color: '#fff',

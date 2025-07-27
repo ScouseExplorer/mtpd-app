@@ -4,7 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  FlatList,
+  ScrollView,
   StyleSheet,
   SafeAreaView,
   KeyboardAvoidingView,
@@ -12,7 +12,9 @@ import {
   Alert,
   Animated,
   Dimensions,
-  StatusBar
+  StatusBar,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -31,7 +33,7 @@ const ChatApp = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const flatListRef = useRef<FlatList<any>>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
   const animatedValues = useRef([new Animated.Value(0), new Animated.Value(0), new Animated.Value(0)]).current;
 
   // Typing indicator animation
@@ -62,8 +64,8 @@ const ChatApp = () => {
   }, [isLoading]);
 
   const scrollToBottom = () => {
-    if (flatListRef.current && messages.length > 0) {
-      flatListRef.current.scrollToEnd({ animated: true });
+    if (scrollViewRef.current && messages.length > 0) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
     }
   };
 
@@ -216,50 +218,71 @@ const ChatApp = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Messages */}
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <FlatList
-          ref={flatListRef}
-          data={messages}
-          renderItem={renderMessage}
-          keyExtractor={(item) => item.id}
+      {/* Messages Area */}
+      <View style={styles.messagesArea}>
+        <ScrollView
+          ref={scrollViewRef}
           style={styles.messagesList}
           contentContainerStyle={styles.messagesContainer}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
+          keyboardShouldPersistTaps="handled"
+        >
+          {messages.length === 0 ? (
             <View style={styles.emptyContainer}>
               <Text style={styles.emptyText}>🤖</Text>
               <Text style={styles.emptySubtext}>Start a conversation with ChatGPT!</Text>
             </View>
-          }
-          ListFooterComponent={renderTypingIndicator}
-        />
+          ) : (
+            messages.map((item) => {
+              const isUser = item.sender === 'user';
+              return (
+                <View key={item.id} style={[styles.messageContainer, isUser ? styles.userMessageContainer : styles.botMessageContainer]}>
+                  <View style={[styles.messageBubble, isUser ? styles.userBubble : styles.botBubble]}>
+                    <Text style={[styles.messageText, isUser ? styles.userText : styles.botText]}>
+                      {item.text}
+                    </Text>
+                    <Text style={[styles.timestamp, isUser ? styles.userTimestamp : styles.botTimestamp]}>
+                      {item.timestamp}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })
+          )}
+          {renderTypingIndicator()}
+        </ScrollView>
+      </View>
 
-        {/* Input Area */}
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.textInput}
-            value={inputValue}
-            onChangeText={setInputValue}
-            placeholder="Type a message..."
-            placeholderTextColor="#999"
-            multiline
-            maxLength={1000}
-          />
-          <TouchableOpacity
-            style={[
-              styles.sendButton,
-              (!inputValue.trim() || isLoading) && styles.sendButtonDisabled
-            ]}
-            onPress={sendMessage}
-            disabled={!inputValue.trim() || isLoading}
-          >
-            <Text style={styles.sendButtonText}>➤</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Input Area with Keyboard Avoiding */}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? -30 : -5}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inputWrapper}>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.textInput}
+                value={inputValue}
+                onChangeText={setInputValue}
+                placeholder="Type a message..."
+                placeholderTextColor="#999"
+                multiline
+                maxLength={1000}
+              />
+              <TouchableOpacity
+                style={[
+                  styles.sendButton,
+                  (!inputValue.trim() || isLoading) && styles.sendButtonDisabled
+                ]}
+                onPress={sendMessage}
+                disabled={!inputValue.trim() || isLoading}
+              >
+                <Text style={styles.sendButtonText}>➤</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -272,6 +295,10 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  messagesArea: {
+    flex: 1,
+    backgroundColor: '#ECE5DD',
   },
   header: {
     backgroundColor: '#25D366',
@@ -307,6 +334,7 @@ const styles = StyleSheet.create({
   messagesContainer: {
     paddingVertical: 16,
     paddingHorizontal: 16,
+    paddingBottom: 20,
   },
   messageContainer: {
     marginBottom: 12,
@@ -372,14 +400,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#999',
     marginHorizontal: 2,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+  inputWrapper: {
     backgroundColor: 'white',
-    alignItems: 'flex-end',
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0',
+    paddingTop: 12,
+    paddingBottom: Platform.OS === 'ios' ? 25 : 15,
+    paddingHorizontal: 16,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    marginBottom: Platform.OS === 'ios' ? 25 : 30,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   textInput: {
     flex: 1,
