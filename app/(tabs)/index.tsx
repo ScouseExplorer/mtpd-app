@@ -1,5 +1,5 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet, View, TextInput, Pressable } from 'react-native';
+import React from 'react';
+import { Image, Platform, StyleSheet, View, TextInput, Pressable } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler'; 
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useState } from 'react';
 import { Link } from 'expo-router';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -25,12 +26,12 @@ export default function Login() {
       
         <View style={styles.formContainer}>
           {/* Logo */}
+          
           <Image
-          source = {require('@/assets/images/metds-logo-png.png')}
-          style = {styles.logo}
-          contentFit= "contain"
+            source={require('@/assets/images/metds-logo-png.png')}
+            style={styles.logo}
+            resizeMode="contain"
           />
-
           
           
           {/* Email Input */}
