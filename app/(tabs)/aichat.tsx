@@ -20,7 +20,7 @@ import {
 const { width } = Dimensions.get('window');
 
 // Replace this with your actual OpenAI API key
-const OPENAI_API_KEY = 'sk-your-api-key-here';
+const OPENAI_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
 
 type Message = {
   id: string;
@@ -255,8 +255,9 @@ const ChatApp = () => {
 
       {/* Input Area with Keyboard Avoiding */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? -30 : -5}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? -30 : -60}
+        enabled={true}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inputWrapper}>
@@ -292,6 +293,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ECE5DD',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   flex: {
     flex: 1,
@@ -405,14 +407,14 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0',
     paddingTop: 12,
-    paddingBottom: Platform.OS === 'ios' ? 25 : 15,
+    paddingBottom: Platform.OS === 'ios' ? 25 : 25,
     paddingHorizontal: 16,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    marginBottom: Platform.OS === 'ios' ? 25 : 30,
+    marginBottom: Platform.OS === 'ios' ? 25 : 25,
   },
   inputContainer: {
     flexDirection: 'row',
